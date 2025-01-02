@@ -8,7 +8,8 @@ Currently a work in progress, but this repo will be refactored to be a consumabl
 
 - `terraform output -raw talosconfig > talosconfig`
 - `terraform output -raw kubeconfig > kubeconfig`
-- `talosctl --talosconfig=talosconfig -e 172.16.200.10 -n 172.16.200.10 dmesg`
+- `talosctl --talosconfig=talosconfig -e [primary cp node ip] -n [primary cp node ip] dmesg`
+    - `talosctl --talosconfig=talosconfig -e 172.16.200.10 -n 172.16.200.10 dmesg`
 - `kubectl get nodes --kubeconfig=kubeconfig`
 
 ## Talos Linux Image Factory

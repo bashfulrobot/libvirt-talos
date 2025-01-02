@@ -14,7 +14,7 @@ variable "cluster_name" {
 variable "talos_version" {
   type = string
   # renovate: datasource=github-releases depName=siderolabs/talos
-  default = "1.8.3"
+  default = "1.9.1"
   validation {
     condition     = can(regex("^\\d+(\\.\\d+)+", var.talos_version))
     error_message = "Must be a version number."
@@ -120,7 +120,13 @@ variable "wk_first_ip" {
   default     = 20
 }
 
-# ---------- KVM Variables ----------
+# ---------- Network Variables ----------
+
+variable "kvm_network_type" {
+  description = "The network type for the KVM network (route, nat)"
+  type        = string
+  default     = "nat"
+}
 
 variable "kvm_subnet" {
   description = "The subnet for the KVM network"
@@ -158,4 +164,14 @@ variable "config_patch_files" {
   description = "Path to talos config path files that applies to all nodes"
   type        = list(string)
   default     = []
+}
+
+variable "talos_factory_installer_base_url" {
+  description = "talos factory image base url"
+  default     = "factory.talos.dev/installer/"
+}
+
+variable "talos_factory_hash" {
+  description = "talos factory hash"
+  default     = "dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"
 }

@@ -1,4 +1,4 @@
-
+# https://github.com/0xC9C3/protalos/blob/9aa6c9c79898c5ee399842e1a65ca398dd02c2ee/talos.tf#L113
 resource "talos_machine_secrets" "this" {
   talos_version = "v${var.talos_version}"
 }
@@ -30,13 +30,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
   node                        = each.value.address
   config_patches = [
-    yamlencode({
-      machine = {
-        install = {
-          disk = "/dev/vda"
-        }
-      }
-    }),
+    yamlencode(local.common_machine_config),
   ]
   # config_patches = [
   #   # yamlencode(local.common_machine_config),
@@ -51,7 +45,7 @@ resource "talos_machine_configuration_apply" "worker" {
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
   node                        = each.value.address
   config_patches = [
-    yamlencode(local.common_machine_config)
+    yamlencode(local.common_machine_config),
   ]
 }
 
@@ -62,14 +56,14 @@ resource "talos_machine_bootstrap" "this" {
 }
 
 data "talos_client_configuration" "this" {
-  depends_on           = [talos_machine_bootstrap.this]
+  # depends_on           = [talos_machine_bootstrap.this]
   cluster_name         = var.cluster_name
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoints            = [for node in values(local.controller_nodes_map) : node.address]
 }
 
 resource "talos_cluster_kubeconfig" "this" {
-  depends_on           = [talos_machine_bootstrap.this]
+  # depends_on           = [talos_machine_bootstrap.this]
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoint             = local.controller_nodes[0].address
   node                 = local.controller_nodes[0].address

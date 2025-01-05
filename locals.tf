@@ -18,66 +18,46 @@ locals {
 
   common_machine_config = {
     machine = {
-      #     # NB the install section changes are only applied after a talos upgrade
-      #     #    (which we do not do). instead, its preferred to create a custom
-      #     #    talos image, which is created in the installed state.
+      # talos image, which is created in the installed state.
       install = {
         image = "${var.talos_factory_installer_base_url}${var.talos_factory_hash}:v${var.talos_version}"
         disk  = "${var.install_disk}"
         wipe  = true
       }
-      #     features = {
-      #       # see https://www.talos.dev/v1.8/kubernetes-guides/configuration/kubeprism/
-      #       # see talosctl -n $c0 read /etc/kubernetes/kubeconfig-kubelet | yq .clusters[].cluster.server
-      #       # NB if you use a non-default CNI, you must configure it to use the
-      #       #    https://localhost:7445 kube-apiserver endpoint.
-      #       kubePrism = {
-      #         enabled = true
-      #         port    = 7445
-      #       }
-      #       # see https://www.talos.dev/v1.8/talos-guides/network/host-dns/
-      #       hostDNS = {
-      #         enabled              = true
-      #         forwardKubeDNSToHost = true
-      #       }
-      #     }
-      #     kernel = {
-      #       modules = [
-      #         // piraeus dependencies.
-      #         {
-      #           name = "drbd"
-      #           parameters = [
-      #             "usermode_helper=disabled",
-      #           ]
-      #         },
-      #         {
-      #           name = "drbd_transport_tcp"
-      #         },
-      #       ]
-      #     }
-      #   }
-      #   cluster = {
-      #     # see https://www.talos.dev/v1.8/talos-guides/discovery/
-      #     # see https://www.talos.dev/v1.8/reference/configuration/#clusterdiscoveryconfig
-      #     discovery = {
-      #       enabled = true
-      #       registries = {
-      #         kubernetes = {
-      #           disabled = false
-      #         }
-      #         service = {
-      #           disabled = true
-      #         }
-      #       }
-      #     }
-      #     network = {
-      #       cni = {
-      #         name = "none"
-      #       }
-      #     }
-      #     proxy = {
-      #       disabled = true
-      #     }
+    }
+  }
+
+  cilium_machine_config = {
+    machine = {
+      # NB the install section changes are only applied after a talos upgrade
+      #    (which we do not do). instead, its preferred to create a custom
+      #    talos image, which is created in the installed state.
+      #install = {}
+      features = {
+        # see https://www.talos.dev/v1.9/kubernetes-guides/configuration/kubeprism/
+        # see talosctl -n $c0 read /etc/kubernetes/kubeconfig-kubelet | yq .clusters[].cluster.server
+        # NB if you use a non-default CNI, you must configure it to use the
+        #    https://localhost:7445 kube-apiserver endpoint.
+        kubePrism = {
+          enabled = true
+          port    = 7445
+        }
+        # see https://www.talos.dev/v1.9/talos-guides/network/host-dns/
+        hostDNS = {
+          enabled              = true
+          forwardKubeDNSToHost = true
+        }
+      }
+    }
+    cluster = {
+      network = {
+        cni = {
+          name = "none"
+        }
+      }
+      proxy = {
+        disabled = true
+      }
     }
   }
 }

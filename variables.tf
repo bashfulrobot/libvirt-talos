@@ -175,3 +175,20 @@ variable "talos_factory_hash" {
   description = "talos factory hash"
   default     = "dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"
 }
+
+# ---------- Cilium Variables ----------
+
+variable "cilium_version" {
+  type = string
+  default = "1.9.1"
+  validation {
+    condition     = can(regex("^\\d+(\\.\\d+)+", var.cilium_version))
+    error_message = "Must be a version number."
+  }
+}
+
+variable "cilium_enable" {
+  description = "Enable Cilium"
+  type        = bool
+  default     = false
+}

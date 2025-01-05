@@ -30,10 +30,10 @@ resource "talos_machine_configuration_apply" "controlplane" {
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
   node                        = each.value.address
   config_patches = [
-    yamlencode(local.common_machine_config),
+    yamlencode(var.cilium_enable ? local.cilium_machine_config : local.common_machine_config),
   ]
   # config_patches = [
-  #   # yamlencode(local.common_machine_config),
+  #   # yamlencode(var.cilium_enable ? local.cilium_machine_config : local.common_machine_config),
   #   # file("${path.module}/files/cp-scheduling.yaml"),
   # ]
 }
@@ -45,7 +45,7 @@ resource "talos_machine_configuration_apply" "worker" {
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
   node                        = each.value.address
   config_patches = [
-    yamlencode(local.common_machine_config),
+    yamlencode(var.cilium_enable ? local.cilium_machine_config : local.common_machine_config),
   ]
 }
 

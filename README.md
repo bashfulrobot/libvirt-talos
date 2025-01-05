@@ -12,6 +12,10 @@ Currently a work in progress, but this repo will be refactored to be a consumabl
     - `talosctl --talosconfig=talosconfig -e 172.16.200.10 -n 172.16.200.10 dmesg`
 - `kubectl get nodes --kubeconfig=kubeconfig`
 
+## Cilium
+
+WIP - adding Cilium CNI support.
+
 ## Talos Linux Image Factory
 
 - Talos [Factory](https://factory.talos.dev/?arch=amd64&cmdline-set=true&extensions=-&extensions=siderolabs%2Fiscsi-tools&extensions=siderolabs%2Fqemu-guest-agent&platform=nocloud&target=cloud&version=1.9.1) page

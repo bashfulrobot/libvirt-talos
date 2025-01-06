@@ -88,11 +88,12 @@ data "helm_template" "cilium" {
   }
   set {
     name  = "k8sServicePort"
-    value = "7445"
+    value = var.kubePrism_port
   }
   set {
     name  = "kubeProxyReplacement"
-    value = "true"
+    # value = "true"
+    value = "disabled"
   }
   set {
     name  = "l2announcements.enabled"

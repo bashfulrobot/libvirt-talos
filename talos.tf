@@ -30,7 +30,8 @@ resource "talos_machine_configuration_apply" "controlplane" {
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
   node                        = each.value.address
   config_patches = [
-    yamlencode(var.cilium_enable ? local.cilium_machine_config : local.common_machine_config),
+    yamlencode(local.common_machine_config),
+    var.cilium_enable ? yamlencode(local.cilium_machine_config) : null
   ]
   # config_patches = [
   #   # yamlencode(var.cilium_enable ? local.cilium_machine_config : local.common_machine_config),
@@ -45,7 +46,8 @@ resource "talos_machine_configuration_apply" "worker" {
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
   node                        = each.value.address
   config_patches = [
-    yamlencode(var.cilium_enable ? local.cilium_machine_config : local.common_machine_config),
+    yamlencode(local.common_machine_config),
+    var.cilium_enable ? yamlencode(local.cilium_machine_config) : null
   ]
 }
 
@@ -67,4 +69,15 @@ resource "talos_cluster_kubeconfig" "this" {
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoint             = local.controller_nodes[0].address
   node                 = local.controller_nodes[0].address
+}
+
+module "cilium" {
+  source = "./modules/cilium"
+  count  = var.cilium_enable ? 1 : 0
+  kvm_subnet = var.kvm_subnet
+  kvm_cidr = var.kvm_cidr
+  cilium_version = var.cilium_version
+  kubernetes_version = var.kubernetes_version
+  cilium_lb_first_ip = var.cilium_lb_first_ip
+  cilium_lb_last_ip = var.cilium_lb_last_ip
 }

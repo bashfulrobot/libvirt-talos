@@ -26,7 +26,6 @@ locals {
       }
     }
   }
-
   cilium_machine_config = {
     machine = {
       # NB the install section changes are only applied after a talos upgrade

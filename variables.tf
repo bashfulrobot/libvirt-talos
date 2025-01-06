@@ -187,6 +187,18 @@ variable "cilium_version" {
   }
 }
 
+variable "cilium_lb_first_ip" {
+  description = "The first IP address for the Cilium Load Balancer"
+  type        = number
+  default     = 100
+}
+
+variable "cilium_lb_last_ip" {
+  description = "The last IP address for the Cilium Load Balancer"
+  type        = number
+  default     = 150
+}
+
 variable "cilium_enable" {
   description = "Enable Cilium"
   type        = bool

@@ -1,5 +1,6 @@
 # CREDIT - taken from: https://github.com/rgl/terraform-libvirt-talos/blob/main/cilium.tf
 locals {
+
   # see https://docs.cilium.io/en/stable/network/lb-ipam/
   # see https://docs.cilium.io/en/stable/network/l2-announcements/
   # see the CiliumL2AnnouncementPolicy type at https://github.com/cilium/cilium/blob/v1.16.5/pkg/k8s/apis/cilium.io/v2alpha1/l2announcement_types.go#L23-L42
@@ -35,8 +36,8 @@ locals {
       spec = {
         blocks = [
           {
-            start = cidrhost(var.cluster_node_network, var.cluster_node_network_load_balancer_first_hostnum)
-            stop  = cidrhost(var.cluster_node_network, var.cluster_node_network_load_balancer_last_hostnum)
+            start = cidrhost("${var.kvm_subnet}.0/${var.kvm_cidr}", var.cilium_lb_first_ip)
+            stop  = cidrhost("${var.kvm_subnet}.0/${var.kvm_cidr}", var.cilium_lb_last_ip)
           },
         ]
       }
@@ -58,8 +59,7 @@ data "helm_template" "cilium" {
   name       = "cilium"
   repository = "https://helm.cilium.io"
   chart      = "cilium"
-  # renovate: datasource=helm depName=cilium registryUrl=https://helm.cilium.io
-  version      = "1.16.5"
+  version      = var.cilium_version
   kube_version = var.kubernetes_version
   api_versions = []
   set {
@@ -88,7 +88,7 @@ data "helm_template" "cilium" {
   }
   set {
     name  = "k8sServicePort"
-    value = local.common_machine_config.machine.features.kubePrism.port
+    value = vars.kubePrism_port
   }
   set {
     name  = "kubeProxyReplacement"

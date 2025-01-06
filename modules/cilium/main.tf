@@ -1,4 +1,7 @@
-# CREDIT - taken from: https://github.com/rgl/terraform-libvirt-talos/blob/main/cilium.tf
+# CREDIT
+# - taken from: https://github.com/rgl/terraform-libvirt-talos/blob/main/cilium.tf
+# - https://github.com/erikvveen/terraform-aws-talos/blob/main/example/03-cilium.tf
+# - https://github.com/isovalent/terraform-k8s-cilium
 locals {
 
   # see https://docs.cilium.io/en/stable/network/lb-ipam/

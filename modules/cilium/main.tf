@@ -88,7 +88,7 @@ data "helm_template" "cilium" {
   }
   set {
     name  = "k8sServicePort"
-    value = var.kubePrism_port
+    value = "7445"
   }
   set {
     name  = "kubeProxyReplacement"

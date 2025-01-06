@@ -1,16 +1,16 @@
 locals {
   controller_nodes = [
     for i in range(var.cp_count) : {
-      name      = "${var.cluster_name}-cp${i}"
+      name      = "${var.cluster_name}-${var.cp_suffix}${i}"
       address   = cidrhost("${var.kvm_subnet}.0/${var.kvm_cidr}", var.cp_first_ip + i)
-      disk_name = "${var.cluster_name}-cp${i}-disk"
+      disk_name = "${var.cluster_name}-${var.cp_suffix}${i}-disk"
     }
   ]
   worker_nodes = [
     for i in range(var.wk_count) : {
-      name      = "${var.cluster_name}-wk${i}"
+      name      = "${var.cluster_name}-${var.wk_suffix}${i}"
       address   = cidrhost("${var.kvm_subnet}.0/${var.kvm_cidr}", var.wk_first_ip + i)
-      disk_name = "${var.cluster_name}-wk${i}-disk"
+      disk_name = "${var.cluster_name}-${var.wk_suffix}${i}-disk"
     }
   ]
   worker_nodes_map     = { for node in local.worker_nodes : node.name => node }

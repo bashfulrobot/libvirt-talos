@@ -28,27 +28,27 @@ provider "libvirt" {
 }
 
 provider "helm" {
-      kubernetes {
-        config_path = "~/.kube/config"
-      }
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
 
 module "libvirt_talos" {
   source = "github.com/bashfulrobot/libvirt-talos"
 
-  cluster_name       = "darkstar"
+  cluster_name       = "enterprise"
   talos_version      = "1.9.0"
   kubernetes_version = "1.32.0"
 
   install_disk = "/dev/vda"
 
-  cp_suffix    = "cp"
+  cp_suffix    = "captain"
   cp_count     = 3
   cp_vcpus     = 4
   cp_memory    = 8192
   cp_disk_size = 20
 
-  wk_suffix    = "wk"
+  wk_suffix    = "redshirt"
   wk_count     = 2
   wk_vcpus     = 4
   wk_memory    = 8192
@@ -56,7 +56,9 @@ module "libvirt_talos" {
 
   kvm_subnet       = "172.16.160"
   kvm_cidr         = 24
-  kvm_network_type = "route"
+  kvm_network_type = "nat"
+
+  cilium_enable = true
 
   cluster_endpoint = "https://172.16.160.10:6443"
 }

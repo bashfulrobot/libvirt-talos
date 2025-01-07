@@ -3,6 +3,7 @@ name: Generate Terraform Docs
 on:
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   docs:
@@ -14,6 +15,8 @@ jobs:
 
       - name: Render terraform docs and push changes back to PR
         uses: terraform-docs/gh-actions@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           working-dir: .
           output-file: README.md

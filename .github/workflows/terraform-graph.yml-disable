@@ -1,0 +1,31 @@
+name: Generate terraform graph
+on:
+  - pull_request
+permissions:
+  contents: write
+jobs:
+  terraform-graph:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Install GraphViz
+        run: sudo apt-get install -y graphviz
+
+      - name: Generate Terraform Graph
+        run: |
+          terraform init
+          terraform plan -out=tfplan
+          terraform graph -type=plan -plan=tfplan | dot -Tpng > graph.png
+
+      - name: Commit and Push Graph
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add graph.png
+          git commit -m "Add Terraform graph visualization" || echo "No changes to commit"
+          git push

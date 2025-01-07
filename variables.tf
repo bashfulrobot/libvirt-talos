@@ -59,9 +59,9 @@ variable "cp_vcpus" {
 }
 
 variable "cp_memory" {
-  description = "The amount of memory for the control plane nodes"
+  description = "The amount (GB) of memory for the control plane nodes"
   type        = number
-  default     = 2048
+  default     = 2
 }
 
 variable "cp_disk_size" {
@@ -97,9 +97,9 @@ variable "wk_vcpus" {
 }
 
 variable "wk_memory" {
-  description = "The amount of memory for the worker nodes"
+  description = "The amount (GB) of memory for the worker nodes"
   type        = number
-  default     = 2048
+  default     = 2
 }
 
 variable "wk_disk_size" {
@@ -123,7 +123,7 @@ variable "wk_first_ip" {
 # ---------- Network Variables ----------
 
 variable "kvm_network_type" {
-  description = "The network type for the KVM network (route, nat)"
+  description = "The network type for the KVM network (route, nat are supported)"
   type        = string
   default     = "nat"
 }
@@ -174,4 +174,33 @@ variable "talos_factory_installer_base_url" {
 variable "talos_factory_hash" {
   description = "talos factory hash"
   default     = "dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"
+}
+
+# ---------- Cilium Variables ----------
+
+variable "cilium_version" {
+  type    = string
+  default = "1.9.1"
+  validation {
+    condition     = can(regex("^\\d+(\\.\\d+)+", var.cilium_version))
+    error_message = "Must be a version number."
+  }
+}
+
+variable "cilium_lb_first_ip" {
+  description = "The first IP address for the Cilium Load Balancer"
+  type        = number
+  default     = 100
+}
+
+variable "cilium_lb_last_ip" {
+  description = "The last IP address for the Cilium Load Balancer"
+  type        = number
+  default     = 150
+}
+
+variable "cilium_enable" {
+  description = "Enable Cilium"
+  type        = bool
+  default     = false
 }

@@ -56,6 +56,6 @@
 
 [x] Implement a `terraform-docs` CI job to auto-generate docs.
 
-[ ] Implement a CI job that does the equivalent of `terraform graph -type=plan | dot -Tpng >graph.png` and adds it back to the repo so that the relationship between resources/systems is easy to navigate with limited effort.
+[x] Implement a CI job that does the equivalent of `terraform graph -type=plan | dot -Tpng >graph.png` and adds it back to the repo so that the relationship between resources/systems is easy to navigate with limited effort.
 
 [ ] Account for helm cilium install to use the right kubeconfig, or look for alternative auth uses.

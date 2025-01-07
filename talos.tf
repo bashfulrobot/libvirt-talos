@@ -4,7 +4,6 @@ resource "talos_machine_secrets" "this" {
 }
 
 data "talos_machine_configuration" "controlplane" {
-  depends_on         = [talos_machine_secrets.this]
   cluster_name       = var.cluster_name
   cluster_endpoint   = var.cluster_endpoint
   machine_type       = "controlplane"
@@ -14,7 +13,6 @@ data "talos_machine_configuration" "controlplane" {
 }
 
 data "talos_machine_configuration" "worker" {
-  depends_on         = [talos_machine_secrets.this]
   cluster_name       = var.cluster_name
   cluster_endpoint   = var.cluster_endpoint
   machine_type       = "worker"
@@ -24,7 +22,6 @@ data "talos_machine_configuration" "worker" {
 }
 
 resource "talos_machine_configuration_apply" "controlplane" {
-  depends_on                  = [data.talos_machine_configuration.controlplane]
   for_each                    = local.controller_nodes_map
   client_configuration        = talos_machine_secrets.this.client_configuration
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
@@ -40,7 +37,6 @@ resource "talos_machine_configuration_apply" "controlplane" {
 }
 
 resource "talos_machine_configuration_apply" "worker" {
-  depends_on                  = [data.talos_machine_configuration.worker]
   for_each                    = local.worker_nodes_map
   client_configuration        = talos_machine_secrets.this.client_configuration
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
@@ -52,20 +48,17 @@ resource "talos_machine_configuration_apply" "worker" {
 }
 
 resource "talos_machine_bootstrap" "this" {
-  depends_on           = [talos_machine_configuration_apply.controlplane]
   client_configuration = talos_machine_secrets.this.client_configuration
   node                 = local.controller_nodes[0].address
 }
 
 data "talos_client_configuration" "this" {
-  # depends_on           = [talos_machine_bootstrap.this]
   cluster_name         = var.cluster_name
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoints            = [for node in values(local.controller_nodes_map) : node.address]
 }
 
 resource "talos_cluster_kubeconfig" "this" {
-  # depends_on           = [talos_machine_bootstrap.this]
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoint             = local.controller_nodes[0].address
   node                 = local.controller_nodes[0].address
@@ -80,4 +73,6 @@ module "cilium" {
   kubernetes_version = var.kubernetes_version
   cilium_lb_first_ip = var.cilium_lb_first_ip
   cilium_lb_last_ip = var.cilium_lb_last_ip
+
+  depends_on = [ talos_machine_bootstrap.this ]
 }

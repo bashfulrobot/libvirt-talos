@@ -22,6 +22,7 @@ lifecycle {
 - This is because I will be managing my Cilium lifecycle in `fluxcd`.
 
 <!-- BEGIN_TF_DOCS -->
+{{ .Content }}
 <!-- END_TF_DOCS -->
 
 ## Test

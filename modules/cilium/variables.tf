@@ -1,5 +1,5 @@
 variable "cilium_version" {
-  type = string
+  type    = string
   default = "1.16.5"
   validation {
     condition     = can(regex("^\\d+(\\.\\d+)+", var.cilium_version))
@@ -8,7 +8,7 @@ variable "cilium_version" {
 }
 
 variable "kubernetes_version" {
-  type = string
+  type    = string
   default = "1.31.3"
   validation {
     condition     = can(regex("^\\d+(\\.\\d+)+", var.kubernetes_version))

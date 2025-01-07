@@ -5,7 +5,7 @@ resource "libvirt_network" "kvm_network" {
   domain    = "${var.cluster_name}.local"
   addresses = ["${var.kvm_subnet}.0/${var.kvm_cidr}"]
   dns {
-    enabled = true
+    enabled    = true
     local_only = false
   }
   dhcp {

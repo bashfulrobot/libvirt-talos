@@ -59,9 +59,9 @@ variable "cp_vcpus" {
 }
 
 variable "cp_memory" {
-  description = "The amount of memory for the control plane nodes"
+  description = "The amount (GB) of memory for the control plane nodes"
   type        = number
-  default     = 2048
+  default     = 2
 }
 
 variable "cp_disk_size" {
@@ -97,9 +97,9 @@ variable "wk_vcpus" {
 }
 
 variable "wk_memory" {
-  description = "The amount of memory for the worker nodes"
+  description = "The amount (GB) of memory for the worker nodes"
   type        = number
-  default     = 2048
+  default     = 2
 }
 
 variable "wk_disk_size" {
@@ -179,7 +179,7 @@ variable "talos_factory_hash" {
 # ---------- Cilium Variables ----------
 
 variable "cilium_version" {
-  type = string
+  type    = string
   default = "1.9.1"
   validation {
     condition     = can(regex("^\\d+(\\.\\d+)+", var.cilium_version))

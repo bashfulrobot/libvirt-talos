@@ -33,15 +33,12 @@ locals {
       #    talos image, which is created in the installed state.
       #install = {}
       features = {
-        # see https://www.talos.dev/v1.9/kubernetes-guides/configuration/kubeprism/
-        # see talosctl -n $c0 read /etc/kubernetes/kubeconfig-kubelet | yq .clusters[].cluster.server
         # NB if you use a non-default CNI, you must configure it to use the
         #    https://localhost:7445 kube-apiserver endpoint.
         kubePrism = {
           enabled = true
           port    = 7445
         }
-        # see https://www.talos.dev/v1.9/talos-guides/network/host-dns/
         hostDNS = {
           enabled              = true
           forwardKubeDNSToHost = true

@@ -4,13 +4,9 @@
 
 Currently a work in progress, but this repo will be refactored to be a consumable module to deploy a Talos Linux Kubernetes cluster.
 
-## Test
+## Remote State
 
-- `terraform output -raw talosconfig > talosconfig`
-- `terraform output -raw kubeconfig > kubeconfig`
-- `talosctl --talosconfig=talosconfig -e [primary cp node ip] -n [primary cp node ip] dmesg`
-    - `talosctl --talosconfig=talosconfig -e 172.16.200.10 -n 172.16.200.10 dmesg`
-- `kubectl get nodes --kubeconfig=kubeconfig`
+**NB** - This module by default uses local state. However, when using this module, you should use a version of remote state that supports encryption since the kubeconfig and talosconfig are sensitive. Not doing so is essentially leaking credentials. The other consideration is the ``talos_machine_secrets` resource. I need to research more, but likely is also sensitive and subject to the same considerations.
 
 ## Cilium
 
@@ -24,6 +20,17 @@ lifecycle {
 ```
 
 - This is because I will be managing my Cilium lifecycle in `fluxcd`.
+
+<!-- BEGIN_TF_DOCS -->
+<!-- END_TF_DOCS -->
+
+## Test
+
+- `terraform output -raw talosconfig > talosconfig`
+- `terraform output -raw kubeconfig > kubeconfig`
+- `talosctl --talosconfig=talosconfig -e [primary cp node ip] -n [primary cp node ip] dmesg`
+    - `talosctl --talosconfig=talosconfig -e 172.16.200.10 -n 172.16.200.10 dmesg`
+- `kubectl get nodes --kubeconfig=kubeconfig`
 
 ## Talos Linux Image Factory
 

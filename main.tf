@@ -15,7 +15,7 @@ resource "libvirt_domain" "cp" {
 
   name   = each.value.name
   vcpu   = var.cp_vcpus
-  memory = var.cp_memory
+  memory = var.cp_memory * 1024
   disk {
     volume_id = libvirt_volume.cp[each.key].id
   }
@@ -47,8 +47,8 @@ resource "libvirt_domain" "wk" {
 
   name   = each.value.name
   vcpu   = var.wk_vcpus
-  memory = var.wk_memory
-    disk {
+  memory = var.wk_memory * 1024
+  disk {
     volume_id = libvirt_volume.wk[each.key].id
   }
   disk {

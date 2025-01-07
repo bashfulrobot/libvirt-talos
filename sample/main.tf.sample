@@ -45,13 +45,13 @@ module "libvirt_talos" {
   cp_suffix    = "captain"
   cp_count     = 3
   cp_vcpus     = 4
-  cp_memory    = 8192
+  cp_memory    = 8
   cp_disk_size = 20
 
   wk_suffix    = "redshirt"
   wk_count     = 2
   wk_vcpus     = 4
-  wk_memory    = 8192
+  wk_memory    = 8
   wk_disk_size = 20
 
   kvm_subnet       = "172.16.160"

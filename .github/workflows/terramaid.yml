@@ -21,7 +21,6 @@ jobs:
     - name: Outputs
       id: vars
       run: |
-        # echo "terramaid_version=$(curl -s https://api.github.com/repos/RoseSecurity/Terramaid/releases/latest | grep tag_name | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
         echo "terramaid_version=v2.0.2" >> $GITHUB_OUTPUT
         case "${{ runner.arch }}" in
           "X64" )
@@ -52,13 +51,26 @@ jobs:
       run: |
         /usr/local/bin/terramaid run
 
+    - name: Move Terramaid.md to docs folder
+      run: |
+        mkdir -p docs
+        mv Terramaid.md docs/
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/Terramaid.md
+        git commit -m "Add Terramaid.md to docs folder" || echo "No changes to commit"
+        git push
+
     - name: Upload comment to PR
       uses: actions/github-script@v7
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const fs = require('fs');
-          const terramaid = fs.readFileSync('Terramaid.md', 'utf8');
+          const terramaid = fs.readFileSync('docs/Terramaid.md', 'utf8');
           github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,

@@ -123,7 +123,7 @@ variable "wk_first_ip" {
 # ---------- Network Variables ----------
 
 variable "kvm_network_type" {
-  description = "The network type for the KVM network (route, nat)"
+  description = "The network type for the KVM network (route, nat are supported)"
   type        = string
   default     = "nat"
 }

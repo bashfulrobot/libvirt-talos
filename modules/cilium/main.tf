@@ -44,4 +44,9 @@ resource "helm_release" "cilium" {
     name  = "k8sServicePort"
     value = "7445"
   }
+
+  lifecycle {
+    prevent_destroy = false
+    ignore_changes  = all
+  }
 }

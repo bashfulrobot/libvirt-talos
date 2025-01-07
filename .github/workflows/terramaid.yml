@@ -59,9 +59,22 @@ jobs:
         script: |
           const fs = require('fs');
           const terramaid = fs.readFileSync('Terramaid.md', 'utf8');
+
+          // Create a new file with Mermaid code fence
+          fs.writeFileSync('terramaid-diagram.md', '```mermaid\n' + terramaid + '\n```');
+
           github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
             body: `## Terraform Plan\n\n${terramaid}`
           })
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add terramaid-diagram.md
+        git commit -m "Add Terramaid output to terramaid-diagram.md"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

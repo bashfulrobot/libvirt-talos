@@ -78,5 +78,5 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add terramaid-diagram.md
-        git commit -m "Add Terramaid output to terramaid-diagram.md"
+        git commit -m "GHA: Add Terramaid output to terramaid-diagram.md"
         git push origin HEAD:${{ github.ref }}

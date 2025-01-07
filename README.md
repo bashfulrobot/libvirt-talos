@@ -14,7 +14,16 @@ Currently a work in progress, but this repo will be refactored to be a consumabl
 
 ## Cilium
 
-WIP - adding Cilium CNI support.
+- adding `cilium_enable = true` to your config will install Cilium CNI via the Helm Provider. Note that currently, lifecycle is set to:
+
+```terraform
+lifecycle {
+    prevent_destroy = false
+    ignore_changes  = all
+  }
+```
+
+- This is because I will be managing my Cilium lifecycle in `fluxcd`.
 
 ## Talos Linux Image Factory
 

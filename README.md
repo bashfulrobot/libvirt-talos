@@ -83,13 +83,13 @@ lifecycle {
 | <a name="input_cp_vcpus"></a> [cp\_vcpus](#input\_cp\_vcpus) | The number of vCPUs for the control plane nodes | `number` | `2` | no |
 | <a name="input_install_disk"></a> [install\_disk](#input\_install\_disk) | The disk to install Talos on | `string` | n/a | yes |
 | <a name="input_iso_path"></a> [iso\_path](#input\_iso\_path) | The path to the Talos ISO | `string` | `"/var/lib/libvirt/images/metal-amd64.iso"` | no |
-| <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | see https://github.com/siderolabs/kubelet/pkgs/container/kubelet https://www.talos.dev/v1.9/introduction/support-matrix/ https://kubernetes.io/releases/ see https://github.com/siderolabs/talos/releases | `string` | `"1.31.3"` | no |
+| <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | see <https://github.com/siderolabs/kubelet/pkgs/container/kubelet> <https://www.talos.dev/v1.9/introduction/support-matrix/> <https://kubernetes.io/releases/> see <https://github.com/siderolabs/talos/releases> | `string` | `"1.31.3"` | no |
 | <a name="input_kvm_cidr"></a> [kvm\_cidr](#input\_kvm\_cidr) | The CIDR for the KVM network | `number` | `24` | no |
 | <a name="input_kvm_network_type"></a> [kvm\_network\_type](#input\_kvm\_network\_type) | The network type for the KVM network (route, nat are supported) | `string` | `"nat"` | no |
 | <a name="input_kvm_subnet"></a> [kvm\_subnet](#input\_kvm\_subnet) | The subnet for the KVM network | `string` | `"172.16.16"` | no |
 | <a name="input_talos_factory_hash"></a> [talos\_factory\_hash](#input\_talos\_factory\_hash) | talos factory hash | `string` | `"dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"` | no |
 | <a name="input_talos_factory_installer_base_url"></a> [talos\_factory\_installer\_base\_url](#input\_talos\_factory\_installer\_base\_url) | talos factory image base url | `string` | `"factory.talos.dev/installer/"` | no |
-| <a name="input_talos_version"></a> [talos\_version](#input\_talos\_version) | https://www.talos.dev/v1.9/introduction/support-matrix/ https://kubernetes.io/releases/ see https://github.com/siderolabs/talos/releases | `string` | `"1.9.1"` | no |
+| <a name="input_talos_version"></a> [talos\_version](#input\_talos\_version) | <https://www.talos.dev/v1.9/introduction/support-matrix/> <https://kubernetes.io/releases/> see <https://github.com/siderolabs/talos/releases> | `string` | `"1.9.1"` | no |
 | <a name="input_wk_count"></a> [wk\_count](#input\_wk\_count) | The number of worker nodes | `number` | `2` | no |
 | <a name="input_wk_disk_size"></a> [wk\_disk\_size](#input\_wk\_disk\_size) | The size (GB) of the disk for the worker nodes | `number` | `20` | no |
 | <a name="input_wk_first_ip"></a> [wk\_first\_ip](#input\_wk\_first\_ip) | The first IP address for the worker nodes | `number` | `20` | no |
@@ -104,6 +104,38 @@ lifecycle {
 | <a name="output_kubeconfig"></a> [kubeconfig](#output\_kubeconfig) | n/a |
 | <a name="output_talosconfig"></a> [talosconfig](#output\_talosconfig) | n/a |
 <!-- END_TF_DOCS -->
+
+## Terramaid
+
+```mermaid
+flowchart TD
+    subgraph Terraform
+        data_talos_client_configuration_this["data.talos_client_configuration.this"]
+        data_talos_machine_configuration_controlplane["data.talos_machine_configuration.controlplane"]
+        data_talos_machine_configuration_worker["data.talos_machine_configuration.worker"]
+        libvirt_domain_cp["libvirt_domain.cp"]
+        libvirt_domain_wk["libvirt_domain.wk"]
+        libvirt_network_kvm_network["libvirt_network.kvm_network"]
+        libvirt_volume_cp["libvirt_volume.cp"]
+        libvirt_volume_wk["libvirt_volume.wk"]
+        talos_cluster_kubeconfig_this["talos_cluster_kubeconfig.this"]
+        talos_machine_bootstrap_this["talos_machine_bootstrap.this"]
+        talos_machine_configuration_apply_controlplane["talos_machine_configuration_apply.controlplane"]
+        talos_machine_configuration_apply_worker["talos_machine_configuration_apply.worker"]
+        talos_machine_secrets_this["talos_machine_secrets.this"]
+        module_cilium_helm_release_cilium["helm_release.cilium"]
+    end
+    data_talos_client_configuration_this --> talos_machine_secrets_this
+    data_talos_machine_configuration_controlplane --> talos_machine_secrets_this
+    data_talos_machine_configuration_worker --> talos_machine_secrets_this
+    libvirt_domain_cp --> libvirt_volume_cp
+    libvirt_domain_wk --> libvirt_volume_wk
+    talos_cluster_kubeconfig_this --> talos_machine_secrets_this
+    talos_machine_bootstrap_this --> talos_machine_secrets_this
+    talos_machine_configuration_apply_controlplane --> data_talos_machine_configuration_controlplane
+    talos_machine_configuration_apply_worker --> data_talos_machine_configuration_worker
+    module_cilium_helm_release_cilium --> talos_machine_bootstrap_this
+```
 
 ## Test
 

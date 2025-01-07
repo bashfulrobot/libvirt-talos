@@ -21,7 +21,8 @@ jobs:
     - name: Outputs
       id: vars
       run: |
-        echo "terramaid_version=$(curl -s https://api.github.com/repos/RoseSecurity/Terramaid/releases/latest | grep tag_name | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
+        # echo "terramaid_version=$(curl -s https://api.github.com/repos/RoseSecurity/Terramaid/releases/latest | grep tag_name | cut -d '"' -f 4)" >> $GITHUB_OUTPUT
+        echo "terramaid_version=v2.0.2" >> $GITHUB_OUTPUT
         case "${{ runner.arch }}" in
           "X64" )
             echo "arch=x86_64" >> $GITHUB_OUTPUT

@@ -5,9 +5,9 @@ on:
     paths:
       - '**/*.tf'
 
-permissions:
-  contents: write
-  pull-requests: write
+# permissions:
+#   contents: write
+#   pull-requests: write
 
 jobs:
   run-terraform-check:
@@ -72,8 +72,9 @@ jobs:
             body: `## Terraform Plan\n\n${terramaid}`
           })
     - name: Commit and push changes
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'

@@ -58,7 +58,7 @@ module "libvirt_talos" {
   kvm_cidr         = 24
   kvm_network_type = "nat"
 
-  cilium_enable = true
+  cilium_cni = true
 
   cluster_endpoint = "https://172.16.160.10:6443"
 }

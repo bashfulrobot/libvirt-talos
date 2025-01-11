@@ -32,8 +32,6 @@
 
 - No work to be done
 
-[ ] In a local-only lab, `var.cilium_lb_first_ip` and `var.cilium_lb_last_ip` are fine, but in a production or shared environment (where everyone might be spinning up their own lab in a shared hypervisor infrastructure), you'd want to figure out how to get values like this from a dynamic, centralized DB or IPAM.
-
 [x] Great job on the `for_each`!  Even if you can't see it now, there's a lot of pain with `count` or a `for_each = set()` when the number of elements is > 1
 
 - No work to be done

@@ -23,7 +23,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cilium_enable"></a> [cilium\_enable](#input\_cilium\_enable) | Enable Cilium | `bool` | `false` | no |
+| <a name="input_cilium_cni"></a> [cilium\_enable](#input\_cilium\_enable) | Enable Cilium | `bool` | `false` | no |
 | <a name="input_cilium_lb_first_ip"></a> [cilium\_lb\_first\_ip](#input\_cilium\_lb\_first\_ip) | The first IP address for the Cilium Load Balancer | `number` | `100` | no |
 | <a name="input_cilium_lb_last_ip"></a> [cilium\_lb\_last\_ip](#input\_cilium\_lb\_last\_ip) | The last IP address for the Cilium Load Balancer | `number` | `150` | no |
 | <a name="input_cilium_version"></a> [cilium\_version](#input\_cilium\_version) | n/a | `string` | `"1.16.5"` | no |

@@ -1,6 +1,6 @@
 module "cilium" {
   source             = "./modules/cilium"
-  count              = var.cilium_enable ? 1 : 0
+  count              = var.cilium_cni ? 1 : 0
   kvm_subnet         = var.kvm_subnet
   kvm_cidr           = var.kvm_cidr
   cilium_version     = var.cilium_version

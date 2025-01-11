@@ -16,7 +16,7 @@ variable "kubernetes_version" {
   }
 }
 
-variable "cilium_enable" {
+variable "cilium_cni" {
   description = "Enable Cilium"
   type        = bool
   default     = false

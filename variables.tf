@@ -187,20 +187,14 @@ variable "cilium_version" {
   }
 }
 
-variable "cilium_lb_first_ip" {
-  description = "The first IP address for the Cilium Load Balancer"
-  type        = number
-  default     = 100
+variable "cilium_cni" {
+  description = "Enable Cilium cni only"
+  type        = bool
+  default     = false
 }
 
-variable "cilium_lb_last_ip" {
-  description = "The last IP address for the Cilium Load Balancer"
-  type        = number
-  default     = 150
-}
-
-variable "cilium_enable" {
-  description = "Enable Cilium"
+variable "cilium_cni_prep_only" {
+  description = "Deploy talos with required machine config for Cilium requirements, but does not install Cilium Itself"
   type        = bool
   default     = false
 }

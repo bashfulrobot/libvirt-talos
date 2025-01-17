@@ -63,3 +63,13 @@ resource "talos_cluster_kubeconfig" "this" {
   endpoint             = local.controller_nodes[0].address
   node                 = local.controller_nodes[0].address
 }
+
+resource "local_file" "kubeconfig" {
+  content  = talos_cluster_kubeconfig.this.kubeconfig
+  filename = "${path.module}/kubeconfig"
+}
+
+resource "local_file" "talosconfig" {
+  content  = talos_cluster_kubeconfig.this.client_configuration
+  filename = "${path.module}/talosconfig"
+}

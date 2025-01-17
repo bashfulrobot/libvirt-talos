@@ -9,6 +9,5 @@ module "cilium" {
   depends_on = [
     talos_machine_bootstrap.this,
     talos_cluster_kubeconfig.this,
-    local_file.kubeconfig
   ]
 }
